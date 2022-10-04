@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Box</title>
+	<style>
+		body {
+			text-align: center;
+			padding: 2rem;
+		}
+
+		.box {
+			--box-size: 300px;
+			--box-rotate: 28deg;
+			--box-spin: calc(var(--box-size) / 4);
+			--box-front: calc(var(--box-size) - var(--box-spin));
+			--box-depth: calc(var(--box-size) * 6 / 3);
+			--box-blur: calc(var(--box-size) / 6);
+			--box-image: url(https://images.pexels.com/photos/9656150/pexels-photo-9656150.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&dpr=1);
+			--box-shadow-color: #0007;
+			--box-mirror-opacity: .35;
+			--box-mask: linear-gradient(#0000, #0007);
+			display: inline-block;
+			position: relative;
+			width: var(--box-size);
+			height: calc(var(--box-size) + var(--box-spin));
+			perspective: var(--box-depth);
+			transform-style: preserve-3d;
+			transform: translateZ(0);
+			box-sizing: border-box;
+		}
+
+		.box i:nth-child(1),
+		.box i:nth-child(2),
+		.box i:nth-child(1)::before,
+		.box i:nth-child(2)::before {
+			height: var(--box-size);
+			background: var(--box-image) 0 100% / var(--box-size) var(--box-size) no-repeat;
+			display: block;
+			position: absolute;
+		}
+
+		.box i:nth-child(1) {
+			transform-origin: 100% 100px;
+			transform: rotateY(calc(var(--box-rotate) - 90deg));
+		}
+
+		.box i:nth-child(1),
+		.box i:nth-child(1)::before {
+			width: var(--box-spin);
+		}
+
+		.box i:nth-child(1)::before,
+		.box i:nth-child(2)::before {
+			content: '';
+			height: var(--box-spin);
+			top: var(--box-size);
+			-webkit-mask-image: var(--box-mask);
+			mask-image: var(--box-mask);
+			transform: scaleY(-1);
+			opacity: var(--box-mirror-opacity);
+		}
+
+		.box i:nth-child(2) {
+			left: var(--box-spin);
+			transform-origin: 0% 100px;
+			transform: rotateY(var(--box-rotate));
+		}
+
+		.box i:nth-child(2),
+		.box i:nth-child(2)::before {
+			width: var(--box-front);
+			background-position: 100% 100%;
+		}
+
+		.box::before {
+			content: '';
+			background: var(--box-shadow-color);
+			width: var(--box-front);
+			height: calc(var(--box-spin) + var(--box-blur));
+			filter: blur(var(--box-blur));
+			display: block;
+			position: absolute;
+			top: var(--box-size);
+			left: var(--box-spin);
+			transform-origin: 0 0;
+			transform: rotateY(var(--box-rotate)) rotateX(-90deg);
+		}
+	</style>
+</head>
+
+<body>
+	<i class="box">
+		<i></i>
+		<i></i>
+	</i>
+</body>
+
+</html>
